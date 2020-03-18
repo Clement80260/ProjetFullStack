@@ -1,7 +1,7 @@
 <?php
 
 
-// Dev By Fresi et Wantelez
+// Dev By Fresi et Wantelez azerty
 class Hero
 {
 
