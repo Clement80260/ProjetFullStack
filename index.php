@@ -1,6 +1,6 @@
 <?php
 
-include "./IHM/header.php";
+include "header.php";
 include "config.php";
 include "RegisterUser.php";
 
@@ -35,7 +35,4 @@ include "RegisterUser.php";
     } else if ($connect == false) {
     }
 
-//$Perso1 = new Hero(0, $Bdd);
-
-
-    include "./IHM/footer.php";
+    include "footer.php";
