@@ -5,5 +5,15 @@ class User
     private $_Nom;
     private $_MDP;
 
+  public function getId()
+  {
+          return $this->_id;
+  }
+
+  public function getNom()
+  {
+          return $this->_Nom;
+  }
+
 }
 ?>
