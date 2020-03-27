@@ -2,6 +2,7 @@
 
 include "./IHM/header.php";
 include "config.php";
+include "RegisterUser.php";
 
 /*if(isset($_GET['map'])){
         echo "vous êtes sur la map N°".$_GET['map'];
@@ -27,6 +28,7 @@ include "config.php";
             <input class="button" type="submit" value="S'inscrire">
         </form>
     </fieldset>
+    
     <?php
     if ($connect == true) {
         echo "je suis connect";
