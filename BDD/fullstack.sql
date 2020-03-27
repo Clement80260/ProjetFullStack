@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 27 mars 2020 à 01:28
+-- Généré le :  ven. 27 mars 2020 à 14:50
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `fullstack`
+-- Base de données :  `pfullstack`
 --
 
 -- --------------------------------------------------------
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `arme` (
 --
 
 INSERT INTO `arme` (`id_arme`, `nom`, `prix`, `durabilite`, `bonus_degat`) VALUES
-(1, 'poings', 0, 9999999, 0);
+(1, 'Poing', 0, 9999999, 0);
 
 -- --------------------------------------------------------
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `armure` (
   `prix` float NOT NULL,
   `durabilite` int(11) NOT NULL,
   `bonus_defense` int(11) NOT NULL,
-  PRIMARY KEY (`id_armure`) USING BTREE
+  PRIMARY KEY (`id_armure`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `armure` (
 --
 
 INSERT INTO `armure` (`id_armure`, `nom`, `prix`, `durabilite`, `bonus_defense`) VALUES
-(1, 'plastron', 0, 9999999, 5);
+(1, 'Plastron', 0, 9999999, 15);
 
 -- --------------------------------------------------------
 
@@ -76,19 +76,19 @@ INSERT INTO `armure` (`id_armure`, `nom`, `prix`, `durabilite`, `bonus_defense`)
 
 DROP TABLE IF EXISTS `assochero`;
 CREATE TABLE IF NOT EXISTS `assochero` (
-  `id_assochero` int(11) NOT NULL AUTO_INCREMENT,
+  `id_assoc` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
-  `id_perso` int(11) NOT NULL,
-  PRIMARY KEY (`id_assochero`),
-  KEY `id_user` (`id_user`),
-  KEY `id_perso` (`id_perso`)
+  `id_hero` int(11) NOT NULL,
+  PRIMARY KEY (`id_assoc`),
+  KEY `id_user` (`id_user`,`id_hero`),
+  KEY `id_hero` (`id_hero`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `assochero`
 --
 
-INSERT INTO `assochero` (`id_assochero`, `id_user`, `id_perso`) VALUES
+INSERT INTO `assochero` (`id_assoc`, `id_user`, `id_hero`) VALUES
 (1, 1, 1);
 
 -- --------------------------------------------------------
@@ -100,26 +100,78 @@ INSERT INTO `assochero` (`id_assochero`, `id_user`, `id_perso`) VALUES
 DROP TABLE IF EXISTS `entite`;
 CREATE TABLE IF NOT EXISTS `entite` (
   `id_entite` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(15) NOT NULL,
+  `id_map` int(11) NOT NULL,
+  `id_armure` int(11) NOT NULL,
+  `id_arme` int(11) NOT NULL,
+  `nom` varchar(25) NOT NULL,
   `pdv` float NOT NULL,
   `attaque` float NOT NULL,
   `defense` float NOT NULL,
-  `id_armure` int(11) NOT NULL,
   `niveau` int(11) NOT NULL,
-  `eta` tinyint(1) NOT NULL,
-  `id_arme` int(11) NOT NULL,
+  `etat` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_entite`),
-  KEY `id_arme` (`id_arme`),
-  KEY `id_armure` (`id_armure`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+  KEY `id_armure` (`id_armure`,`id_arme`),
+  KEY `id_map` (`id_map`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `entite`
 --
 
-INSERT INTO `entite` (`id_entite`, `nom`, `pdv`, `attaque`, `defense`, `id_armure`, `niveau`, `eta`, `id_arme`) VALUES
-(2, 'Ashe', 650, 50, 20, 1, 0, 1, 1),
-(3, 'Jinx', 290, 60, 20, 1, 0, 1, 1);
+INSERT INTO `entite` (`id_entite`, `id_map`, `id_armure`, `id_arme`, `nom`, `pdv`, `attaque`, `defense`, `niveau`, `etat`) VALUES
+(1, 1, 1, 1, 'Ashe', 650, 50, 20, 0, 1),
+(2, 1, 1, 1, 'Dragon', 1000, 80, 100, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `hero`
+--
+
+DROP TABLE IF EXISTS `hero`;
+CREATE TABLE IF NOT EXISTS `hero` (
+  `id_hero` int(11) NOT NULL AUTO_INCREMENT,
+  `id_entite` int(11) NOT NULL,
+  `id_typehero` int(11) NOT NULL,
+  `id_arme` int(11) NOT NULL,
+  `id_armure` int(11) NOT NULL,
+  `potion` int(11) NOT NULL,
+  `pdv` int(11) NOT NULL,
+  `attaque` int(11) NOT NULL,
+  `defense` int(11) NOT NULL,
+  PRIMARY KEY (`id_hero`),
+  KEY `id_typehero` (`id_typehero`,`id_entite`),
+  KEY `id_entite` (`id_entite`),
+  KEY `id_arme` (`id_arme`),
+  KEY `id_armure` (`id_armure`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `hero`
+--
+
+INSERT INTO `hero` (`id_hero`, `id_entite`, `id_typehero`, `id_arme`, `id_armure`, `potion`, `pdv`, `attaque`, `defense`) VALUES
+(1, 1, 1, 1, 1, 0, 650, 50, 20);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `map`
+--
+
+DROP TABLE IF EXISTS `map`;
+CREATE TABLE IF NOT EXISTS `map` (
+  `id_map` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(25) NOT NULL,
+  PRIMARY KEY (`id_map`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `map`
+--
+
+INSERT INTO `map` (`id_map`, `nom`) VALUES
+(1, 'Forêt Torturé');
 
 -- --------------------------------------------------------
 
@@ -129,45 +181,18 @@ INSERT INTO `entite` (`id_entite`, `nom`, `pdv`, `attaque`, `defense`, `id_armur
 
 DROP TABLE IF EXISTS `mob`;
 CREATE TABLE IF NOT EXISTS `mob` (
-  `id_mob` int(11) NOT NULL AUTO_INCREMENT,
+  `id_mod` int(11) NOT NULL AUTO_INCREMENT,
   `id_entite` int(11) NOT NULL,
-  PRIMARY KEY (`id_mob`)
+  PRIMARY KEY (`id_mod`),
+  KEY `id_entite` (`id_entite`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `mob`
 --
 
-INSERT INTO `mob` (`id_mob`, `id_entite`) VALUES
-(1, 4);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `perso`
---
-
-DROP TABLE IF EXISTS `perso`;
-CREATE TABLE IF NOT EXISTS `perso` (
-  `id_perso` int(11) NOT NULL AUTO_INCREMENT,
-  `id_entite` int(11) NOT NULL,
-  `id_typehero` int(11) NOT NULL,
-  `id_arme` int(11) NOT NULL,
-  `id_armure` int(11) NOT NULL,
-  `pdv` int(11) NOT NULL,
-  `attaque` int(11) NOT NULL,
-  `defense` int(11) NOT NULL,
-  `potion` int(11) NOT NULL,
-  PRIMARY KEY (`id_perso`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `perso`
---
-
-INSERT INTO `perso` (`id_perso`, `id_entite`, `id_typehero`, `id_arme`, `id_armure`, `pdv`, `attaque`, `defense`, `potion`) VALUES
-(1, 2, 1, 1, 1, 650, 50, 20, 0),
-(2, 3, 1, 1, 1, 650, 60, 20, 0);
+INSERT INTO `mob` (`id_mod`, `id_entite`) VALUES
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -178,16 +203,16 @@ INSERT INTO `perso` (`id_perso`, `id_entite`, `id_typehero`, `id_arme`, `id_armu
 DROP TABLE IF EXISTS `typehero`;
 CREATE TABLE IF NOT EXISTS `typehero` (
   `id_typehero` int(11) NOT NULL AUTO_INCREMENT,
-  `categorie` varchar(15) NOT NULL,
+  `categorie` varchar(25) NOT NULL,
   PRIMARY KEY (`id_typehero`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `typehero`
 --
 
 INSERT INTO `typehero` (`id_typehero`, `categorie`) VALUES
-(1, 'archer');
+(1, 'Archer');
 
 -- --------------------------------------------------------
 
@@ -201,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `pseudo` varchar(15) NOT NULL,
   `mail` varchar(30) NOT NULL,
   `mdp` varchar(100) NOT NULL,
-  `dollars` int(11) NOT NULL,
+  `dollars` float NOT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
@@ -220,13 +245,29 @@ INSERT INTO `user` (`id_user`, `pseudo`, `mail`, `mdp`, `dollars`) VALUES
 -- Contraintes pour la table `assochero`
 --
 ALTER TABLE `assochero`
-  ADD CONSTRAINT `assochero_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `assochero_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
+  ADD CONSTRAINT `assochero_ibfk_2` FOREIGN KEY (`id_hero`) REFERENCES `hero` (`id_hero`);
 
 --
 -- Contraintes pour la table `entite`
 --
 ALTER TABLE `entite`
-  ADD CONSTRAINT `entite_ibfk_2` FOREIGN KEY (`id_arme`) REFERENCES `arme` (`id_arme`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `entite_ibfk_1` FOREIGN KEY (`id_map`) REFERENCES `map` (`id_map`);
+
+--
+-- Contraintes pour la table `hero`
+--
+ALTER TABLE `hero`
+  ADD CONSTRAINT `hero_ibfk_1` FOREIGN KEY (`id_typehero`) REFERENCES `typehero` (`id_typehero`),
+  ADD CONSTRAINT `hero_ibfk_2` FOREIGN KEY (`id_entite`) REFERENCES `entite` (`id_entite`),
+  ADD CONSTRAINT `hero_ibfk_3` FOREIGN KEY (`id_arme`) REFERENCES `arme` (`id_arme`),
+  ADD CONSTRAINT `hero_ibfk_4` FOREIGN KEY (`id_armure`) REFERENCES `armure` (`id_armure`);
+
+--
+-- Contraintes pour la table `mob`
+--
+ALTER TABLE `mob`
+  ADD CONSTRAINT `mob_ibfk_1` FOREIGN KEY (`id_entite`) REFERENCES `entite` (`id_entite`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
