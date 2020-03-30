@@ -2,7 +2,7 @@
 
 include "header.php";
 include "config.php";
-include "RegisterUser.php";
+include "BDD/User.php";
 
 /*if(isset($_GET['map'])){
         echo "vous êtes sur la map N°".$_GET['map'];
@@ -13,7 +13,9 @@ include "RegisterUser.php";
         echo "vous etes perdu ";
     }
 */
+
 ?>
+
 <form method="post" action="">
     <h3>Log In</h3>
     <fieldset>

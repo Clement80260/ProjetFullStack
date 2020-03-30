@@ -14,6 +14,6 @@ class User
   {
           return $this->_Nom;
   }
-
+  
 }
 ?>
