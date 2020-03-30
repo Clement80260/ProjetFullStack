@@ -1,28 +1,29 @@
 <?php
 //DEV BY WANTELEZ
-include "../BDD/Personnage.php";
-/* En cours de construction
-Le metier n'est normalement pas une classe
-c'est un couche 
 
-ici vous utiliser les objext en appelant leur méthode pour faire vos manipulation et calcul
+include "../header.php";
+include "../BDD/Entite.php";
+/* En cours de construction*/
 
-TODO 
+//déplacer cette méthode dans la couche metier , ne pas faire de requête utilisé les membres des objets
 
 
-$Hero1 = new hero(12212,$bdd);
-$mob1 = new mob(276233;$bdd);
 
-TU peux faire des foncitons
+function Attaquer($IdAgresseur, $IdVictime, $Bdd)
+{
 
-funtoin attaquet($hero1,$mob1){
-     $mob1->getVie - $hero1->getDegat 
+    $Agresseur = new entite($IdAgresseur, $Bdd);
+    $Victime = new entite($IdVictime, $Bdd);
+
+    $VictimePdv = $Victime->getPdv() - $Agresseur->getAttaque();
+    $Victime->setPdv($VictimePdv);
+    echo "<div> <p>Pdv du dragon :".$Victime->getPdv()."</p></div>";
+
+    $Bdd->query("UPDATE `entite` SET `pdv` = " . $VictimePdv . " WHERE `entite`.`id_entite` = " . $Victime->getId() . "");
 }
 
-*/
-?>
+echo "<div><p>Appuyez sur f5 pour attaquer (je ferais un btn plus tard)<p><div>";
 
-
-
+Attaquer(1, 2, $Bdd);
 
 
