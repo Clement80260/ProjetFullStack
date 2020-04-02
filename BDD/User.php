@@ -14,6 +14,11 @@ class User
   {
           return $this->_Nom;
   }
+
+  public function CheckUser()
+  {
+          
+  }
   
 }
 ?>
