@@ -40,7 +40,7 @@ require "./header.php"; ?>
                         $isconnectUS = $user->Compar2($_POST['NDC_2'], $_POST['MDP_2']);
                         if ($isconnectUS) {
 
-                            echo "<p><h3>Vous etes connectez.</h3></p>";
+                            echo "<p><h3>vous etes connectez.</h3></p>";
 
                             $_SESSION['Connect'] = true;
 

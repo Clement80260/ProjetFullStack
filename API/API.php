@@ -19,7 +19,7 @@
     }
     catch(Exception $e)
     {
-        echo "Erreur connexion à la base";
+        echo "erreur connexion à la base";
     }
 
     if(isset($_POST['combat'])&&isset($_POST['idagresseur'])&&isset($_POST['idvictime']))

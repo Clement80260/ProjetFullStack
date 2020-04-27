@@ -1,20 +1,7 @@
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-// Dev By Fresi et Wantelez azerty
-class Hero
-=======
 include "Entite.php";
-// Dev By Wantelez Florian
+// Dev By Wantelez Florian.
 class Hero extends entite
->>>>>>> 0a5fee92bbd8d1fdcdbe420b8b480cbc962a3ef8
-=======
-include "Entite.php";
-// Dev By Wantelez Florian
-class Hero extends entite
->>>>>>> 4f4572d32f174caafd8ca042c5847ceb48c7f8ee
 {
 
     private $_IdHero;
