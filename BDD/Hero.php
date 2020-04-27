@@ -1,91 +1,103 @@
 <?php
+<<<<<<< HEAD
 
 
 // Dev By Fresi et Wantelez azerty
 class Hero
+=======
+include "Entite.php";
+// Dev By Wantelez Florian
+class Hero extends entite
+>>>>>>> 0a5fee92bbd8d1fdcdbe420b8b480cbc962a3ef8
 {
 
-    private $_Id;
-    private $_Vie;
+    private $_IdHero;
+    private $_Nom;
+    private $_Pdv;
     private $_Attaque;
-    private $_Bdd;
+    private $_Defense;
+    private $_Potion;
 
 
-    public function __construct($IdDuPseudo, $Bdd)
+
+    public function __construct($IdHero, $Bdd)
     {
-        $this->_Bdd = $Bdd;
-        //Langlace ce rajoute un control si la bdd existe pas je la simule
-        if(!is_null($Bdd)){
-            $DataPersonnage = $this->_Bdd->query("SELECT * from personnage where id =" . $IdDuPseudo . "");
-            $TabDataPersonnage = $DataPersonnage->fetch();
-            $this->_Id = $IdDuPseudo;
-            $this->_Vie = $TabDataPersonnage['vie'];
-            $this->_Attaque = $TabDataPersonnage['attaque'];
-        }else{
-            $this->_Id = 0;
-            $this->_Vie = 10;
-            $this->_Attaque = 10;
-        }
-        
+        if (isset($IdHero)) {
 
-        //go to base chercher les info du personnages par id
+            $this->_IdHero = $IdHero;
 
+            $DataHeroExtendEntite = $Bdd->query("SELECT id_hero, nom, pdvmax, attaquemax, defensemax, potion from hero INNER JOIN entite on hero.id_hero = entite.id_entite where hero.id_hero =" . $IdHero . "");
 
-        //verifier que id est coorrect sinon simulé un perso
+            if (isset($DataHeroExtendEntite)) {
+                //TODO Traiter le cas ou DataEntite est pas un objet de requete
+                $TabDataHeroExtendEntite = $DataHeroExtendEntite->fetch();
+                // On récupère toutes les infos de l'entité
 
-        $this->_Pseudo = "Perso Simulé N°" . $IdDuPseudo;
-        $this->_Vie = 50;  // La vie sera prédéfini à celle du niveau 1.
-        $this->_Attaque = 5;  // L'attaque sera défini à celle du niveau 1.
-    }
-
-    // Dev by Wantelez Florian //
-    // Fonction qui permet de soustraire les points de vie de la cible en fonction des point d'attaques du personnage
-    public function AttaqueMob($IdMob)
-    {
-        // on selectionne la vie du monstre
-        //$DataMonstre = $this->_Bdd->query("SELECT * from /*TableMob*/ where id =" . $IdMob . "");
-        //$TabdDataMonstre = $DataMonstre->fetch();
-
-        // on lui soustrais l'attaque du héro
-        //Langlace ne compile pas je met en commentaire
-        //$NewVieMonstre = $TabdDataMonstre[/*vie*/] - $this->_Attaque;
-        //et je simule
-        $NewVieMonstre = 10;
-            // Si ça est inférieure à 0 ou null alors il est mort
-        if ($NewVieMonstre <= 0) {
-
-            //$this->_Bdd->query("UPDATE /*TableMob*/ set etat = 'mort' WHERE idmob =" . $IdMob . "");
+                $this->_Nom = $TabDataHeroExtendEntite["nom"];
+                $this->_Pdv = $TabDataHeroExtendEntite["pdvmax"];
+                $this->_Attaque = $TabDataHeroExtendEntite["attaquemax"];
+                $this->_Defense = $TabDataHeroExtendEntite["defensemax"];
+                $this->_Potion = $TabDataHeroExtendEntite["potion"];
+            } else {
+                echo "Erreure la requete : retourne un objet null'";
+            }
         } else {
-            //$this->_Bdd->query("UPDATE /*TableMob*/ set vie =" . $NewVieMonstre . " WHERE idmob =" . $IdMob . "");
+            "Error IdHero non défini";
         }
     }
-
-    // Dev By Fresi
-    //Accesseur
-    function GetID()
+    //Method Get
+    public function getNom()
     {
-        return $this->_Id;
+        return $this->_Nom;
     }
-
-    // Dev By Fresi
-    // Fonction qui renvoie la valeur de la vie
-    function GetVie()
+    public function getPdv()
     {
-        return $this->_Vie;
+        return $this->_Pdv;
     }
-
-    // Dev By Fresi
-    // Fonction pour changer de Pseudo
-    function SetPseudo($NouveauSpoeudo)
+    public function getAttaque()
     {
-        return $this->_Pseudo = $NouveauSpoeudo;
+        return $this->_Attaque;
     }
-
-    // Dev By Fresi
-    // Fonction qui affiche les statistiques d'un personnage
-    public function AfficherStats()
+    public function getDefense()
     {
+        return $this->_Defense;
+    }
+    public function getNiveau()
+    {
+        return $this->_Niveau;
+    }
+    public function getId()
+    {
+        return $this->_IdHero;
+    }
+    public function getPotion()
+    {
+        return $this->_Potion;
+    }
+    //Method Set
 
-        echo "Votre pseudo est " . $this->_pseudo . " Vous avez " . $this->_vie . " point de vie et " . $this->_attaque . " d'attaque";
+    public function setNom($NewName)
+    {
+        $this->_Nom = $NewName;
+    }
+    public function setPdv($NewPdv)
+    {
+        $this->_Pdv = $NewPdv;
+    }
+    public function setAttaque($NewAttaque)
+    {
+        $this->_Attaque = $NewAttaque;
+    }
+    public function setDefense($NewDefense)
+    {
+        $this->_Defense = $NewDefense;
+    }
+    public function setNiveau($NewNiveau)
+    {
+        $this->_Niveau = $NewNiveau;
+    }
+    public function setPotion($NewPotion)
+    {
+        $this->_Potion = $NewPotion;
     }
 }
